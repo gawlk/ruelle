@@ -1,6 +1,7 @@
 {
   "name": "ruelle",
-  "version": "0.0.1",
+  "description": "A very tiny router for vite and vue 3",
+  "version": "0.0.4",
   "license": "MIT",
   "main": "index.js",
   "author": {
@@ -8,9 +9,11 @@
     "url": "https://github.com/gawlk"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "main": "index.js",
+  "types": "index.d.ts",
   "peerDependencies": {
     "vite": "^2.0.2",
     "vue": "^3.0.5"

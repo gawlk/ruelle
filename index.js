@@ -1,11 +1,8 @@
-import { shallowRef, defineAsyncComponent, reactive } from 'vue'
+import { defineAsyncComponent, shallowReactive } from 'vue'
 
-export const createRouter = () => {
-    const page = shallowRef()
-
-    const router = reactive({
+export const createRouter = (globs) => {
+    const router = shallowReactive({
         routes: {},
-        page,
         to: (path) => {
             history.pushState(null, '', path)
 
@@ -20,21 +17,18 @@ export const createRouter = () => {
                 history.replaceState(null, '', router.path)
             }
 
-            page.value = router.routes[router.path]
+            router.page = router.routes[router.path]
         },
     })
 
-    const pages = import.meta.glob('./pages/**/*.(vue|jsx|tsx)')
-    console.log('pages', pages)
-
-    Object.keys(pages)
-        .filter((key) => !key.includes('/components/'))
+    Object.keys(globs)
+        .filter((key) => !key.toLowerCase().includes('/components/'))
         .forEach((key) => {
             let path = key
                 .toLowerCase()
-                .match(/^\.\/pages\/(.*)\.(vue|jsx|tsx)$/)[1]
+                .match(/^\.\/[A-Za-z]+\/(.*)\.(vue|jsx|tsx)$/)[1]
             path = '/' + (path === 'index' ? '' : path.replace(/\/?index$/, ''))
-            router.routes[path] = defineAsyncComponent(() => pages[key]())
+            router.routes[path] = defineAsyncComponent(() => globs[key]())
         })
 
     router.set(window.location.pathname)
