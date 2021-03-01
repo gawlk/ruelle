@@ -27,7 +27,8 @@ export const createRouter = (globs) => {
             let path = key
                 .toLowerCase()
                 .match(/^\.\/[A-Za-z]+\/(.*)\.(vue|jsx|tsx)$/)[1]
-            path = '/' + (path === 'index' ? '' : path.replace(/\/?index$/, ''))
+            path =
+                '/' + (path === 'index' ? '' : path.replace(/(\/?index)+$/, ''))
             router.routes[path] = defineAsyncComponent(() => globs[key]())
         })
 
