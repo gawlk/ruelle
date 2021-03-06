@@ -1,5 +1,7 @@
 import { defineAsyncComponent, shallowReactive } from 'vue'
 
+export const PAGES_REGEX = './pages/(**!(components)/)?*.(vue|jsx|tsx)'
+
 export const createRouter = (globs) => {
     const router = shallowReactive({
         routes: {},
